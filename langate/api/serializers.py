@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from portal.models import *
+from .models import *
 import re
 
 event_logger = logging.getLogger("langate.events")
@@ -106,7 +106,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'username', 'email', 'is_active', 'profile')
+        fields = ('id', 'first_name', 'last_name', 'is_staff', 'is_superuser', 'username', 'email', 'is_active', 'profile')
 
 
 class AnnounceSerializer(serializers.ModelSerializer):

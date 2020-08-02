@@ -4,12 +4,12 @@ EXPOSE 80
 WORKDIR /app
 
 ENV LANG=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
 
 # installing deps
 
 RUN apt-get update
-RUN apt-get install -y supervisor python3 python3-pip ipset iptables sudo nginx ruby ruby-dev
-RUN gem install sass
+RUN apt-get install -y supervisor python3 python3-pip ipset iptables sudo nginx nodejs npm
 
 COPY requirements.txt /app/
 RUN pip3 install -r requirements.txt
@@ -19,25 +19,20 @@ COPY langate2000-supervisor.conf /etc/supervisor/supervisord.conf
 # nginx setup
 
 COPY langate2000-nginx.conf /etc/nginx/sites-enabled/default
-RUN mkdir -p /var/www/html/static
 
 # netcontrol
 
 ADD langate2000-netcontrol /app/langate2000-netcontrol
 
-# theming
+ADD langate2000-ui /app/langate2000-ui
+WORKDIR /app/langate2000-ui
 
-ADD theming /app/theming
-
-WORKDIR /app/theming/
-
-RUN sass insalan.scss langate.css
+RUN npm install
+RUN npm run-script build
 
 # django
 
 ADD langate /app/langate
-
-RUN cp /app/theming/langate.css /app/langate/static/css/
 
 WORKDIR /app/langate/
 

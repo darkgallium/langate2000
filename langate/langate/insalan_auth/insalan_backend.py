@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from django.http import HttpRequest
 from django.db import transaction
 
-from portal.models import Role, Tournament
+from api.models import Role, Tournament
 
 UserModel = get_user_model()
 

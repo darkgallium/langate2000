@@ -28,6 +28,8 @@ SECRET_KEY = django_secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = debug
 
+ENABLE_NETCONTROL = False
+
 SERVER_IP = 'gate.insalan.fr'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', SERVER_IP]
@@ -40,15 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'portal.apps.PortalConfig',
-    'helpdesk',
-    'api',
-    'bootstrap4',
+    'api.apps.LangateConfig',
     'rest_framework',
-    'crispy_forms',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
 ]
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -76,9 +74,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
 
-            'libraries': {
-                'helpdesk_tags': 'helpdesk.templatestags.tags'
-            }
         },
     },
 ]
@@ -143,6 +138,16 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'langate.insalan_auth.insalan_backend.InsalanBackend'
 )
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'api.serializers.UserSerializer'
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 # Logging settings
 

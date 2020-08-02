@@ -62,19 +62,6 @@ class WhitelistDetails(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = WhiteListSerializer
 
 
-class ChangeMark(APIView):
-    permission_classes = (permissions.IsAdminUser,)
-
-    def get(self, request, ident, mark):
-
-        if Device.objects.filter(id=ident).count() > 0:
-            dev = Device.objects.get(id=ident)
-            r = netcontrol.query("set_mark", {"mac": dev.mac, "mark": mark})
-
-            if r["success"]:
-                return Response(status=status.HTTP_204_NO_CONTENT)
-
-        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class UserDeviceDetails(APIView):
